@@ -2,27 +2,33 @@
 
 <nav id="mmenu">
   <ul>
-<% @taxonomies.each do |taxonomy| %>
-  <% cache [I18n.locale, taxonomy, max_level, @taxon] do %>
-    <li><% if taxonomy.root.children.any? %>
-        <span><%= Spree.t(:shop_by_taxonomy, taxonomy: taxonomy.name) %></span>
-          <%= mmenu_taxons_tree(taxonomy.root, @taxon, max_level) %>
+    <li>
+      <a href="/"><%= Spree.t(:'home') %></a>
+    </li>
+        <% @taxonomies.each do |taxonomy| %>
+          <% cache [I18n.locale, taxonomy, max_level, @taxon] do %>
+            <li><% if taxonomy.root.children.any? %>
+                <span><%= Spree.t(taxonomy.name) %></span>
+                  <%= mmenu_taxons_tree(taxonomy.root, @taxon, max_level) %>
+                <% end %>
+              <% end %>
+            </li>
         <% end %>
-      <% end %>
-    </li>
-<% end %>
-    <li>
-      <a href="<%= spree.products_path  %>/tongkat-ali"><%= Spree.t(:'buy_tongkat_ali') %></a>
-    </li>
-    <li>
-      <span><%= Spree.t(:'tongkat_ali_info') %></span>
-      <ul>
-        <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.visible.sidebar_links, as: :page %>
-      </ul>
-    </li>
-    <li>
-      <a href="<%= spree.products_path  %>"><%= Spree.t(:'other_supplements') %></a>
-    </li>
+        <li><span>Learning Resources</span>
+          <ul>
+            <li>
+              <span><%= Spree.t(:'tongkat_ali_info') %></span>
+              <ul>
+                <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.visible.sidebar_links, as: :page %>
+              </ul>
+            </li>
+            <li>
+              <a href="<%= spree.products_path  %>"><%= Spree.t(:'other_supplements') %></a>
+            </li>
+          </ul>
+        </li>
+
+
     <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.by_store(current_store).visible.header_links, as: :page %>
     <li>
       <span><%= Spree.t(:'store_policies') %></span>
