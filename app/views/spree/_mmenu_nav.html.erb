@@ -1,0 +1,63 @@
+<% max_level = 6 %>
+
+<nav id="mmenu">
+  <ul>
+<% @taxonomies.each do |taxonomy| %>
+  <% cache [I18n.locale, taxonomy, max_level, @taxon] do %>
+    <li><% if taxonomy.root.children.any? %>
+        <span><%= Spree.t(:shop_by_taxonomy, taxonomy: taxonomy.name) %></span>
+          <%= mmenu_taxons_tree(taxonomy.root, @taxon, max_level) %>
+        <% end %>
+      <% end %>
+    </li>
+<% end %>
+    <li>
+      <a href="<%= spree.products_path  %>/tongkat-ali"><%= Spree.t(:'buy_tongkat_ali') %></a>
+    </li>
+    <li>
+      <span><%= Spree.t(:'tongkat_ali_info') %></span>
+      <ul>
+        <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.visible.sidebar_links, as: :page %>
+      </ul>
+    </li>
+    <li>
+      <a href="<%= spree.products_path  %>"><%= Spree.t(:'other_supplements') %></a>
+    </li>
+    <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.by_store(current_store).visible.header_links, as: :page %>
+    <li>
+      <span><%= Spree.t(:'store_policies') %></span>
+      <ul>
+        <%= render partial: 'spree/static_content/static_content_list', collection: Spree::Page.by_store(current_store).visible.footer_links, as: :page %>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<script>
+   jQuery(document).ready(function( $ ) {
+      $("#mmenu").mmenu({
+
+        extensions: [ "pagedim-black", "popup", "listview-large" ],
+        navbars: [
+            { position	: 'top',
+              content		: [ "<div style='max-width:90px; margin:auto;'><img src='https://cdn.shopify.com/s/files/1/0267/6713/t/10/assets/footer_logo.png?4174504560290715067' alt=''></div>" ]
+            },
+
+            { position	: 'top',
+              content		: [ 'searchfield' ]
+            },
+            { position	: 'top',
+              content		: [ 'breadcrumbs' ]
+            },
+            { position: "bottom",
+              content		: [
+                         "<a href='mailto:sales@worldabs.com'><i class='fal fa-envelope'></i></a>"
+                       , "<a href='https://twitter.com/worldabs' target='_blank'><i class='fab fa-twitter'></i></a>"
+                       , "<a href='https://www.instagram.com/worldabs/' target='_blank'><i class='fab fa-instagram'></i></a>"
+                       , "<a href='https://www.facebook.com/WorldABS/' target='_blank'><i class='fab fa-facebook-square'></i></a>"]
+            }
+         ],
+
+      });
+   });
+</script>
